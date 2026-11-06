@@ -3,12 +3,16 @@
 
 using IoT.ControlPlane.Api.Contracts.Organizations;
 using IoT.ControlPlane.Application.Modules.Organizations.Commands.CreateOrganization;
+using IoT.ControlPlane.Application.Modules.Organizations.Commands.DeleteOrganization;
+using IoT.ControlPlane.Application.Modules.Organizations.Commands.RenameOrganization;
 using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizationById;
+using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizations;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/v1/organizations")]
-public sealed class OrganizationsControler(CreateOrganizationHandler createOrganizationHandler, GetOrganizationByIdHandler getOrganizationByIdHandler) : ControllerBase
+public sealed class OrganizationsControler(CreateOrganizationHandler createOrganizationHandler, GetOrganizationByIdHandler getOrganizationByIdHandler,
+    GetOrganizationsHandler getOrganizationsHandler, RenameOrganizationHandler renameOrganizationHandler, DeleteOrganizationHandler deleteOrganizationHandler) : ControllerBase
 {
     ///
     [HttpPost]
@@ -44,4 +48,57 @@ public sealed class OrganizationsControler(CreateOrganizationHandler createOrgan
         var response = new OrganizationResponse(organization.Id, organization.Name, organization.CreatedAtUtc);
         return Ok(response);
     }
+
+    [HttpGet]
+    [ProducesResponseType<IReadOnlyList<OrganizationResponse>>(
+    StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+    CancellationToken cancellationToken)
+    {
+        var query = new GetOrganizationsQuery();
+
+        var organizations = await getOrganizationsHandler.HandleAsync(
+            query,
+            cancellationToken);
+
+        var response = organizations
+            .Select(organization => new OrganizationResponse(
+                organization.Id,
+                organization.Name,
+                organization.CreatedAtUtc))
+            .ToList();
+
+        return Ok(response);
+    }
+    [HttpPatch("{id:guid}")]
+    [ProducesResponseType<OrganizationResponse>(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Rename(Guid id, [FromBody] RenameOrganizationRequest request, CancellationToken cancellationToken)
+    {
+        var query = new RenameOrganizationCommand(id, request.Name);
+
+        var rename = await renameOrganizationHandler.HandleAsync(query, cancellationToken);
+        if (!rename)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType<OrganizationResponse>(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        var query = new DeleteOrganizationCommand(id);
+
+        var delete = await deleteOrganizationHandler.HandleAsync(query, cancellationToken);
+        if (!delete)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
 }
