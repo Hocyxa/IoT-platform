@@ -18,7 +18,7 @@ public sealed class Organization
         Name = name;
         CreatedAtUtc = createdAtUtc;
     }
-    private string NormalizeName(string name)
+    private static string NormalizeName(string name)
     {
         ArgumentNullException.ThrowIfNull(name);
         var normalizedName = name.Trim();
@@ -37,14 +37,14 @@ public sealed class Organization
         return normalizedName;
     }
 
-    public Organization Create(Guid id, string name, DateTimeOffset createdAtUtc)
+    public static Organization Create(Guid id, string name, DateTimeOffset createdAtUtc)
     {
         if (id == Guid.Empty)
         {
             throw new ArgumentException("Organization ID cannot be empty.", nameof(id));
         }
         var normalizedName = NormalizeName(name);
-        if (CreatedAtUtc.Offset != TimeSpan.Zero)
+        if (createdAtUtc.Offset != TimeSpan.Zero)
         {
             throw new ArgumentException("Creation date must be in UTC.",
                 nameof(createdAtUtc));
