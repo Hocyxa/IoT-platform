@@ -1,3 +1,4 @@
+using IoT.ControlPlane.Application;
 using IoT.ControlPlane.Infrastructure;
 using IoT.ControlPlane.Infrastructure.Persistence;
 
@@ -6,7 +7,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Register application services.
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Services.AddApplication();
 
 WebApplication app = builder.Build();
 
