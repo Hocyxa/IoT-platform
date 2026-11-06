@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IoT.ControlPlane.Application\IoT.ControlPlane.Application.csproj" />
+    <ProjectReference
+      Include="..\IoT.ControlPlane.Infrastructure\IoT.ControlPlane.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

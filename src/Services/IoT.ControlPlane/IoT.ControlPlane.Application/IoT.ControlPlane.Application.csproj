@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\IoT.ControlPlane.Domain\IoT.ControlPlane.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
