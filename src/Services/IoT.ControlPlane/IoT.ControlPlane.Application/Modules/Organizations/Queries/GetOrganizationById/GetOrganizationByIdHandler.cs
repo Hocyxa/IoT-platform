@@ -1,8 +1,7 @@
 
 
 using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
-using IoT.ControlPlane.Application.Modules.Organizations.Queries;
-using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizationById;
+namespace IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizationById;
 
 public sealed class GetOrganizationByIdHandler(IOrganizationRepository repository)
 {
