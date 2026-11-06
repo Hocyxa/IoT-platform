@@ -48,4 +48,19 @@ public sealed class OrganizationRepository(
                 organization => organization.Id == id,
                 cancellationToken);
     }
+
+    public async Task UpdateAsync(Organization organization, CancellationToken cancellationToken)
+    {
+        dbContext.Organizations.Update(organization);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+    }
+
+    public async Task DeleteAsync(Organization organization, CancellationToken cancellationToken)
+    {
+        dbContext.Remove(organization);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+    }
 }
