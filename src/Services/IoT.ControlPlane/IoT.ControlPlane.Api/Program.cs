@@ -1,3 +1,4 @@
+using IoT.ControlPlane.Application;
 using IoT.ControlPlane.Infrastructure;
 using IoT.ControlPlane.Infrastructure.Persistence;
 
@@ -6,7 +7,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Register application services.
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 WebApplication app = builder.Build();
 
@@ -25,10 +30,13 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
+app.MapControllers();
 app.MapGet("/health", () => Results.Ok(new
 {
     Status = "Healthy",

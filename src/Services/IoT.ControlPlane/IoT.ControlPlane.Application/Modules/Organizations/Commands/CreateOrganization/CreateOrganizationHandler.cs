@@ -1,5 +1,6 @@
 
 using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
+using IoT.ControlPlane.Application.Modules.Organizations.Queries;
 using IoT.ControlPlane.Domain.Modules.Organizations;
 
 namespace IoT.ControlPlane.Application.Modules.Organizations.Commands.CreateOrganization;
@@ -8,7 +9,7 @@ public sealed class CreateOrganizationHandler(
     IOrganizationRepository repository,
     TimeProvider timeProvider)
 {
-    public async Task<Guid> HandleAsync(
+    public async Task<OrganizationDto> HandleAsync(
         CreateOrganizationCommand command,
         CancellationToken cancellationToken)
     {
@@ -21,6 +22,6 @@ public sealed class CreateOrganizationHandler(
             organization,
             cancellationToken);
 
-        return organization.Id;
+        return new OrganizationDto(organization.Id, organization.Name, organization.CreatedAtUtc);
     }
 }
