@@ -6,7 +6,7 @@ using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganization
 
 public sealed class GetOrganizationByIdHandler(IOrganizationRepository repository)
 {
-    public async Task<OrganizationDto> HandleAsync(GetOrganizationByIdQuery query, CancellationToken cancellationToken)
+    public async Task<OrganizationDto?> HandleAsync(GetOrganizationByIdQuery query, CancellationToken cancellationToken)
     {
         var organization = await repository.GetByIdAsync(query.OrganizationId, cancellationToken);
         if (organization is null)
