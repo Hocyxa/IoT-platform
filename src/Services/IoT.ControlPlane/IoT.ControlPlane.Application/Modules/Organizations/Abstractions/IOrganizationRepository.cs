@@ -19,4 +19,10 @@ public interface IOrganizationRepository
     Task<bool> ExistsAsync(
         Guid id,
         CancellationToken cancellationToken);
+    Task UpdateAsync(
+        Organization organization,
+        CancellationToken cancellationToken);
+    Task DeleteAsync(
+         Organization organization,
+        CancellationToken cancellationToken);
 }
