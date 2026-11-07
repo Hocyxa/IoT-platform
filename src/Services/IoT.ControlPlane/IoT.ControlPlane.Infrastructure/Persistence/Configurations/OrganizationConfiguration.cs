@@ -1,7 +1,8 @@
 using IoT.ControlPlane.Domain.Modules.Organizations;
+using IoT.ControlPlane.Infrastructure.Persistence.Configurations.Extensions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using IoT.ControlPlane.Infrastructure.Persistence.Configurations.Extensions;
 namespace IoT.ControlPlane.Infrastructure.Persistence.Configurations;
 
 public sealed class OrganizationConfiguration

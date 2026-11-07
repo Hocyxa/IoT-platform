@@ -1,5 +1,4 @@
 using IoT.ControlPlane.Domain.Common;
-
 namespace IoT.ControlPlane.Domain.Modules.Sites;
 
 public sealed class Site : AuditableEntity

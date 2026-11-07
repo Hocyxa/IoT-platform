@@ -1,5 +1,5 @@
-using IoT.ControlPlane.Domain.Modules.Sites;
 using IoT.ControlPlane.Domain.Modules.Organizations;
+using IoT.ControlPlane.Domain.Modules.Sites;
 using IoT.ControlPlane.Infrastructure.Persistence.Configurations.Extensions;
 
 using Microsoft.EntityFrameworkCore;

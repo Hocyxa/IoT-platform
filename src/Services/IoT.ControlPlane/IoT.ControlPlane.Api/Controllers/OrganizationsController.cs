@@ -1,14 +1,16 @@
 
 
 
+using Asp.Versioning;
+
 using IoT.ControlPlane.Api.Contracts.Organizations;
 using IoT.ControlPlane.Application.Modules.Organizations.Commands.CreateOrganization;
 using IoT.ControlPlane.Application.Modules.Organizations.Commands.DeleteOrganization;
 using IoT.ControlPlane.Application.Modules.Organizations.Commands.RenameOrganization;
 using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizationById;
 using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizations;
+
 using Microsoft.AspNetCore.Mvc;
-using Asp.Versioning;
 
 [ApiController]
 [Route("api/v1/[controller]")]

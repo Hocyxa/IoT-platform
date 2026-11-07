@@ -1,7 +1,9 @@
+using Asp.Versioning;
+
 using IoT.ControlPlane.Application;
 using IoT.ControlPlane.Infrastructure;
 using IoT.ControlPlane.Infrastructure.Persistence;
-using Asp.Versioning;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Register application services.
