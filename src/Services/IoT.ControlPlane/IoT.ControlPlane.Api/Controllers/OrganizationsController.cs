@@ -8,10 +8,12 @@ using IoT.ControlPlane.Application.Modules.Organizations.Commands.RenameOrganiza
 using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizationById;
 using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganizations;
 using Microsoft.AspNetCore.Mvc;
+using Asp.Versioning;
 
 [ApiController]
-[Route("api/v1/organizations")]
-public sealed class OrganizationsControler(CreateOrganizationHandler createOrganizationHandler, GetOrganizationByIdHandler getOrganizationByIdHandler,
+[Route("api/v1/[controller]")]
+// [ApiVersion("1.0")] // Version 1.0
+public sealed class OrganizationsController(CreateOrganizationHandler createOrganizationHandler, GetOrganizationByIdHandler getOrganizationByIdHandler,
     GetOrganizationsHandler getOrganizationsHandler, RenameOrganizationHandler renameOrganizationHandler, DeleteOrganizationHandler deleteOrganizationHandler) : ControllerBase
 {
     ///
