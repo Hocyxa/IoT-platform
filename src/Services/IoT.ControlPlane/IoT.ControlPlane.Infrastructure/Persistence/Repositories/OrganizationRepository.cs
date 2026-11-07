@@ -1,12 +1,12 @@
 using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
+using IoT.ControlPlane.Application.Modules.Organizations.Contracts;
 using IoT.ControlPlane.Domain.Modules.Organizations;
-using IoT.ControlPlane.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace IoT.ControlPlane.Infrastructure.Persistence.Repositories;
 
 public sealed class OrganizationRepository(
-    ControlPlaneDbContext dbContext) : IOrganizationRepository
+    ControlPlaneDbContext dbContext) : IOrganizationRepository, IOrganizationExistenceChecker
 {
     public async Task AddAsync(
         Organization organization,
