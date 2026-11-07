@@ -1,7 +1,7 @@
 using IoT.ControlPlane.Domain.Modules.Organizations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+using IoT.ControlPlane.Infrastructure.Persistence.Configurations.Extensions;
 namespace IoT.ControlPlane.Infrastructure.Persistence.Configurations;
 
 public sealed class OrganizationConfiguration
@@ -22,8 +22,6 @@ public sealed class OrganizationConfiguration
             .HasMaxLength(200)
             .IsRequired();
 
-        builder.Property(x => x.CreatedAtUtc)
-            .HasColumnName("created_at_utc")
-            .IsRequired();
+        builder.ConfigureAuditableEntity();
     }
 }

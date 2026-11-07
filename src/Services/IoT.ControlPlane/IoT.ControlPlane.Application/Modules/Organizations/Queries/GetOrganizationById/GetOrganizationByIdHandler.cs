@@ -13,6 +13,6 @@ public sealed class GetOrganizationByIdHandler(IOrganizationRepository repositor
             return null;
         }
 
-        return new OrganizationDto(organization.Id, organization.Name, organization.CreatedAtUtc);
+        return new OrganizationDto(organization.Id, organization.Name, organization.CreatedAtUtc, organization.UpdatedAtUtc);
     }
 }

@@ -10,8 +10,11 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
 
+csharp_new_line_before_open_brace = none
+csharp_new_line_before_else = true
+
 dotnet_sort_system_directives_first = true
-dotnet_separate_import_directive_groups = false
+dotnet_separate_import_directive_groups = true
 
 csharp_style_namespace_declarations = file_scoped:warning
 csharp_style_var_for_built_in_types = true:warning
