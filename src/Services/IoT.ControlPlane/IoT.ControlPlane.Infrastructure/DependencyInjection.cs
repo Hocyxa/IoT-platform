@@ -1,4 +1,5 @@
 using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
+using IoT.ControlPlane.Application.Modules.Sites.Abstractions;
 using IoT.ControlPlane.Infrastructure.Persistence;
 using IoT.ControlPlane.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString));
 
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+        services.AddScoped<ISiteRepository, SiteRepository>();
 
         return services;
     }
