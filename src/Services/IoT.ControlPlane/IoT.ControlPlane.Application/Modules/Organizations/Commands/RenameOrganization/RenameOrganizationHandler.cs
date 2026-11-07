@@ -4,7 +4,7 @@ using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
 namespace IoT.ControlPlane.Application.Modules.Organizations.Commands.RenameOrganization;
 
 public sealed class RenameOrganizationHandler(
-    IOrganizationRepository repository)
+    IOrganizationRepository repository, TimeProvider timeProvider)
 {
     public async Task<bool> HandleAsync(
         RenameOrganizationCommand command,
@@ -17,7 +17,7 @@ public sealed class RenameOrganizationHandler(
             return false;
         }
 
-        organization.Rename(command.Name);
+        organization.Rename(command.Name, timeProvider.GetUtcNow());
 
         await repository.UpdateAsync(
             organization,
