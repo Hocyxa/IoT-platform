@@ -21,7 +21,12 @@ public abstract class AuditableEntity
     protected void MarkAsUpdated(DateTimeOffset updatedAtUtc)
     {
         EnsureUtc(updatedAtUtc, nameof(updatedAtUtc));
-
+        if (updatedAtUtc < CreatedAtUtc)
+        {
+            throw new ArgumentException(
+                "Update date cannot be earlier than creation date.",
+                nameof(updatedAtUtc));
+        }
         UpdatedAtUtc = updatedAtUtc;
     }
 
