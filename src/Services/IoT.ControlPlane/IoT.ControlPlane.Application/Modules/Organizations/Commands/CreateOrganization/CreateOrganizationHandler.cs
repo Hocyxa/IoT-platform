@@ -22,6 +22,6 @@ public sealed class CreateOrganizationHandler(
             organization,
             cancellationToken);
 
-        return new OrganizationDto(organization.Id, organization.Name, organization.CreatedAtUtc);
+        return new OrganizationDto(organization.Id, organization.Name, organization.CreatedAtUtc, organization.UpdatedAtUtc);
     }
 }

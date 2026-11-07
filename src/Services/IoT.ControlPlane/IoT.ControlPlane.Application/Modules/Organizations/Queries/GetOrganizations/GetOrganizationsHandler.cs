@@ -9,6 +9,6 @@ public sealed class GetOrganizationsHandler(IOrganizationRepository repository)
     {
         var organizations = await repository.GetAllAsync(cancellationToken);
 
-        return organizations.Select(org => new OrganizationDto(org.Id, org.Name, org.CreatedAtUtc)).ToList();
+        return organizations.Select(org => new OrganizationDto(org.Id, org.Name, org.CreatedAtUtc, org.UpdatedAtUtc)).ToList();
     }
 }
