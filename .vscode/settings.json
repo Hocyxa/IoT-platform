@@ -1,0 +1,31 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": [
+            "source.organizeImports"
+        ]
+    },
+    "[json]": {
+        "editor.tabSize": 2
+    },
+    "[yaml]": {
+        "editor.tabSize": 2
+    },
+    "[xml]": {
+        "editor.tabSize": 2
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.eol": "\n",
+    "dotnet.format.enable": true
+}

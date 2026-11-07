@@ -9,7 +9,7 @@ STARTUP_PROJECT := $(API_PROJECT)
 
 COMPOSE_FILE := deploy/docker-compose.yml
 
-.PHONY: help restore build test run up down db-status db-logs migration migrate migration-remove migration-list
+.PHONY: help restore build test run up down db-status db-logs migration migrate migration-remove migration-list format
 
 help:
 	@echo Available commands:
@@ -64,3 +64,6 @@ migration-remove:
 
 migration-list:
 	dotnet ef migrations list --project $(INFRA_PROJECT) --startup-project $(STARTUP_PROJECT)
+
+format:
+	dotnet format $(SOLUTION)
