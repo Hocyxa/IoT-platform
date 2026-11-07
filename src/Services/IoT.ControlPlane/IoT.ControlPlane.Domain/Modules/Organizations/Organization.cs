@@ -1,10 +1,11 @@
+using IoT.ControlPlane.Domain.Common;
+
 namespace IoT.ControlPlane.Domain.Modules.Organizations;
 
-public sealed class Organization
+public sealed class Organization : AuditableEntity
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; } = null!;
-    public DateTimeOffset CreatedAtUtc { get; private set; }
 
     private Organization()
     {
@@ -12,11 +13,10 @@ public sealed class Organization
     private Organization(
         Guid id,
         string name,
-        DateTimeOffset createdAtUtc)
+        DateTimeOffset createdAtUtc) : base(createdAtUtc)
     {
         Id = id;
         Name = name;
-        CreatedAtUtc = createdAtUtc;
     }
     private static string NormalizeName(string name)
     {
@@ -53,9 +53,10 @@ public sealed class Organization
         return new Organization(id, normalizedName, createdAtUtc);
     }
 
-    public void Rename(string name)
+    public void Rename(string name, DateTimeOffset updatedAtUtc)
     {
         Name = name;
+        MarkAsUpdated(updatedAtUtc);
     }
 
 
