@@ -4,7 +4,7 @@ public abstract class AuditableEntity
 {
     public DateTimeOffset CreatedAtUtc { get; private set; }
 
-    public DateTimeOffset? UpdatedAtUtc { get; private set; }
+    public DateTimeOffset UpdatedAtUtc { get; private set; }
 
     protected AuditableEntity()
     {
