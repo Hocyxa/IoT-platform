@@ -1,4 +1,4 @@
-namespace IoT.ControlPlane.Domain.Modules.Device;
+namespace IoT.ControlPlane.Domain.Modules.Devices;
 
 public enum DeviceStatus
 {

@@ -1,6 +1,6 @@
 using IoT.ControlPlane.Domain.Common;
 
-namespace IoT.ControlPlane.Domain.Modules.Device;
+namespace IoT.ControlPlane.Domain.Modules.Devices;
 
 public sealed class Device : AuditableEntity
 {
@@ -33,7 +33,6 @@ public sealed class Device : AuditableEntity
         Guid siteId,
         string name,
         string serialNumber,
-        DeviceStatus status,
         DateTimeOffset createdAtUtc)
     {
         if (id == Guid.Empty)
@@ -44,7 +43,7 @@ public sealed class Device : AuditableEntity
         {
             throw new ArgumentException("Site ID cannot be empty.", nameof(siteId));
         }
-        return new Device(id, siteId, NormalizeName(name), NormalizeSerialNumber(serialNumber), status, createdAtUtc);
+        return new Device(id, siteId, NormalizeName(name), NormalizeSerialNumber(serialNumber), DeviceStatus.Active, createdAtUtc);
 
     }
     public void UpdateDetails(
