@@ -1,3 +1,4 @@
+using IoT.ControlPlane.Domain.Modules.Devices;
 using IoT.ControlPlane.Domain.Modules.Organizations;
 using IoT.ControlPlane.Domain.Modules.Sites;
 
@@ -11,6 +12,8 @@ public sealed class ControlPlaneDbContext(
 {
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Site> Sites => Set<Site>();
+    public DbSet<Device> Devices => Set<Device>();
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

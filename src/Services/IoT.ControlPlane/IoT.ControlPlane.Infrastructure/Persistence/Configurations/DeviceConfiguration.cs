@@ -1,4 +1,4 @@
-using IoT.ControlPlane.Domain.Modules.Device;
+using IoT.ControlPlane.Domain.Modules.Devices;
 using IoT.ControlPlane.Domain.Modules.Sites;
 using IoT.ControlPlane.Infrastructure.Persistence.Configurations.Extensions;
 
