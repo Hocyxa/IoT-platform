@@ -64,8 +64,7 @@ public sealed class SitesController(
                     .ToList()
                 );
     }
-    //TODO /api/v1/organizations/{organizatioId:guid}/sites
-    [HttpGet("by-organization/{organizationId:guid}")]
+    [HttpGet("/api/v1/organizations/{organizatioId:guid}/sites")]
     [ProducesResponseType(typeof(IReadOnlyList<SiteDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByOrganization(
         Guid organizationId,
