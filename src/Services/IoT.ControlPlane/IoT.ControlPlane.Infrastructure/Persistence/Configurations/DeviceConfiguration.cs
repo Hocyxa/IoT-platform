@@ -30,7 +30,7 @@ public sealed class DeviceConfiguration
             .IsRequired();
 
         builder.Property(x => x.SerialNumber)
-            .HasColumnName("address")
+            .HasColumnName("serial_number")
             .HasMaxLength(100);
 
         builder.Property(x => x.Status)

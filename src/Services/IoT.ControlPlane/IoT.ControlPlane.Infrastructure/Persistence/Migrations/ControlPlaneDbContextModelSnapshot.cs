@@ -43,7 +43,7 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("address");
+                        .HasColumnName("serial_number");
 
                     b.Property<Guid>("SiteId")
                         .HasColumnType("uuid")
