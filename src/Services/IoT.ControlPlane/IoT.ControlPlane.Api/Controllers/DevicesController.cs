@@ -6,6 +6,7 @@ using IoT.ControlPlane.Application.Modules.Devices.Commands.DeleteDevice;
 using IoT.ControlPlane.Application.Modules.Devices.Commands.UpdateDevice;
 using IoT.ControlPlane.Application.Modules.Devices.Queries.GetDeviceById;
 using IoT.ControlPlane.Application.Modules.Devices.Queries.GetDevices;
+using IoT.ControlPlane.Application.Modules.Devices.Queries.GetDevicesBySite;
 
 using MediatR;
 
@@ -48,7 +49,7 @@ public sealed class DevicesController(ISender sender) : ControllerBase
     }
     [HttpGet]
     [ProducesResponseType<DeviceResponse>(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var devices = await sender.Send(new GetDevicesQuery(), cancellationToken);
 
@@ -88,5 +89,21 @@ public sealed class DevicesController(ISender sender) : ControllerBase
         var status = DeviceStatusMapper.ToDomain(request.Status);
         var updated = await sender.Send(new ChangeDeviceStatusCommand(id, status), cancellationToken);
         return updated ? NoContent() : NotFound();
+    }
+    [HttpGet("/api/v1/sites/{siteId:guid}/devices")]
+    [ProducesResponseType<IReadOnlyList<DeviceResponse>>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetBySite(
+        Guid siteId,
+        CancellationToken cancellationToken)
+    {
+        var devices = await sender.Send(
+            new GetDevicesBySiteQuery(siteId),
+            cancellationToken);
+
+        var response = devices
+            .Select(DeviceResponseMapper.ToResponse)
+            .ToList();
+
+        return Ok(response);
     }
 }
