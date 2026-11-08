@@ -4,7 +4,7 @@ using IoT.ControlPlane.Domain.Modules.Devices;
 
 using MediatR;
 
-namespace Iot.ControlPlane.Application.Modules.Devices.CreateDevice;
+namespace IoT.ControlPlane.Application.Modules.Devices.Commands.CreateDevice;
 
 public sealed class CreateDeviceCommandHandler(
     IDeviceRepository deviceRepository,
