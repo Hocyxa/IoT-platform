@@ -7,7 +7,7 @@ using MediatR;
 namespace IoT.ControlPlane.Application.Modules.Devices.Queries.GetDevices;
 
 
-public sealed class GetDevicesHandler(IDeviceRepository deviceRepository) : IRequestHandler<GetDevicesQuery, IReadOnlyList<DeviceDto>>
+public sealed class GetDevicesQueryHandler(IDeviceRepository deviceRepository) : IRequestHandler<GetDevicesQuery, IReadOnlyList<DeviceDto>>
 {
     public async Task<IReadOnlyList<DeviceDto>> Handle(GetDevicesQuery request, CancellationToken cancellationToken)
     {
