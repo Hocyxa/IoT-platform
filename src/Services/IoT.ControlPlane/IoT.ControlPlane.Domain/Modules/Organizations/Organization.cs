@@ -55,7 +55,7 @@ public sealed class Organization : AuditableEntity
 
     public void Rename(string name, DateTimeOffset updatedAtUtc)
     {
-        Name = name;
+        Name = NormalizeName(name);
         MarkAsUpdated(updatedAtUtc);
     }
 
