@@ -4,5 +4,5 @@ public enum DeviceStatus
 {
     Active = 0,
     Maintenance = 1,
-    Disable = 2
+    Disabled = 2
 }
