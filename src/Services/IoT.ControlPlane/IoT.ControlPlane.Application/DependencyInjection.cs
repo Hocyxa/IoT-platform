@@ -7,6 +7,7 @@ using IoT.ControlPlane.Application.Modules.Organizations.Queries.GetOrganization
 using IoT.ControlPlane.Application.Modules.Sites;
 
 using Microsoft.Extensions.DependencyInjection;
+
 namespace IoT.ControlPlane.Application;
 
 public static class DependencyInjection
@@ -30,6 +31,11 @@ public static class DependencyInjection
         //Utils
         services.AddSingleton(TimeProvider.System);
 
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(
+                typeof(DependencyInjection).Assembly);
+        });
 
         return services;
     }

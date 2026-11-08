@@ -20,6 +20,10 @@ public sealed class SiteConfiguration
             .HasColumnName("id")
             .ValueGeneratedNever();
 
+        builder.Property(x => x.OrganizationId)
+            .HasColumnName("organization_id")
+            .IsRequired();
+
         builder.Property(x => x.Name)
             .HasColumnName("name")
             .HasMaxLength(200)
