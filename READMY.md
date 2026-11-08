@@ -9,3 +9,6 @@
 | Incident	| DDD + Domain Events	| Запланировано
 | Notification	| Event-driven Architecture	| Запланировано
 | DeviceSimulation	| Background Services	| Запланировано
+
+
+fix route for site on org (/api/v1/organizations/{organizatioId:guid}/sites) (TODO)
