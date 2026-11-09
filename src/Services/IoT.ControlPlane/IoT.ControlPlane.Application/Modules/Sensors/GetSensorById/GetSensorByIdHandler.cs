@@ -20,7 +20,7 @@ public sealed class GetSensorByIdHandler(ISensorRepository repository) : IReques
             sensor.DeviceId,
             sensor.Name,
             sensor.Code,
-            sensor.MeasurementType,
+            sensor.Type,
             sensor.Unit,
             sensor.CreatedAtUtc,
             sensor.UpdatedAtUtc

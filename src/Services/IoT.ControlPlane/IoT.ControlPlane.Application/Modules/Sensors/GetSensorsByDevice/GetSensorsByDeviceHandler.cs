@@ -19,7 +19,7 @@ public sealed class GetSensorsByDeviceIdHandler(ISensorRepository repository) : 
                 sensor.DeviceId,
                 sensor.Name,
                 sensor.Code,
-                sensor.MeasurementType,
+                sensor.Type,
                 sensor.Unit,
                 sensor.CreatedAtUtc,
                 sensor.UpdatedAtUtc

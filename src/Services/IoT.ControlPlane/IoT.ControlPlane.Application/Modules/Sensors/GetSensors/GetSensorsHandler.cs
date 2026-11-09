@@ -17,7 +17,7 @@ public sealed class GetSensorsHandler(ISensorRepository repository) : IRequestHa
                 sensor.DeviceId,
                 sensor.Name,
                 sensor.Code,
-                sensor.MeasurementType,
+                sensor.Type,
                 sensor.Unit,
                 sensor.CreatedAtUtc,
                 sensor.UpdatedAtUtc))

@@ -7,7 +7,7 @@ public sealed record SensorDto(
     Guid DeviceId,
     string Name,
     string Code,
-    MeasurementType MeasurementType,
+    MeasurementType Type,
     string Unit,
     DateTimeOffset CreatedAtUtc,
     DateTimeOffset UpdatedAtUtc
