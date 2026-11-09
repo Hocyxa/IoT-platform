@@ -1,5 +1,5 @@
 using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
-using IoT.ControlPlane.Application.Modules.Organizations.Contracts;
+using IoT.ControlPlane.Application.Modules.Sites.Contracts;
 using IoT.ControlPlane.Domain.Modules.Organizations;
 
 using Microsoft.EntityFrameworkCore;

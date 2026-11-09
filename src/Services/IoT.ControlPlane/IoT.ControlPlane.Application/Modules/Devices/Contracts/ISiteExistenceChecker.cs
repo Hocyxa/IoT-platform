@@ -1,4 +1,4 @@
-namespace IoT.ControlPlane.Application.Modules.Sites.Contracts;
+namespace IoT.ControlPlane.Application.Modules.Devices.Contracts;
 
 public interface ISiteExistenceChecker
 {

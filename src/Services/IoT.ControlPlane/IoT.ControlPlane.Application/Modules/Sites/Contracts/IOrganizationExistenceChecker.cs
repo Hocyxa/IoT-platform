@@ -1,4 +1,4 @@
-namespace IoT.ControlPlane.Application.Modules.Organizations.Contracts;
+namespace IoT.ControlPlane.Application.Modules.Sites.Contracts;
 
 public interface IOrganizationExistenceChecker
 {
