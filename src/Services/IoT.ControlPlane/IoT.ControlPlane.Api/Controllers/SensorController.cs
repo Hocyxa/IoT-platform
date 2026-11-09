@@ -1,5 +1,3 @@
-using Asp.Versioning;
-
 using IoT.ControlPlane.Api.Contracts.Sensors;
 using IoT.ControlPlane.Application.Modules.Sensors.CreateSensor;
 using IoT.ControlPlane.Application.Modules.Sensors.DeleteSensor;
@@ -15,8 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IoT.ControlPlane.Api.Controllers;
 
 [ApiController]
-[Route("ape/v{version:apiVersion}/[controller]")]
-[ApiVersion("1.0")]
+[Route("api/v1/[controller]")]
 public sealed class SensorsController(ISender sender) : ControllerBase
 {
     [HttpPost]
@@ -68,7 +65,7 @@ public sealed class SensorsController(ISender sender) : ControllerBase
         return Ok(SensorResponseMapper.ToResponse(sensor));
     }
 
-    [HttpGet("/api/v{version:apiVersion}/devices/{deviceId:guid}/sensors")]
+    [HttpGet("/api/v1/devices/{deviceId:guid}/sensors")]
     [ProducesResponseType<IReadOnlyList<SensorResponse>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByDevice(
         Guid deviceId,
