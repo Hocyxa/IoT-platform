@@ -30,7 +30,7 @@ public sealed class SensorTests
         Assert.Equal(deviceId, sensor.DeviceId);
         Assert.Equal("Temperature sensor", sensor.Name);
         Assert.Equal("TEMP-01", sensor.Code);
-        Assert.Equal(MeasurementType.Temperature, sensor.MeasurementType);
+        Assert.Equal(MeasurementType.Temperature, sensor.Type);
         Assert.Equal("°C", sensor.Unit);
         Assert.Equal(_createdAtUtc, sensor.CreatedAtUtc);
         Assert.Equal(_createdAtUtc, sensor.UpdatedAtUtc);
@@ -215,7 +215,7 @@ public sealed class SensorTests
             _createdAtUtc);
 
         // Assert
-        Assert.Equal(measurementType, sensor.MeasurementType);
+        Assert.Equal(measurementType, sensor.Type);
     }
 
     [Fact]

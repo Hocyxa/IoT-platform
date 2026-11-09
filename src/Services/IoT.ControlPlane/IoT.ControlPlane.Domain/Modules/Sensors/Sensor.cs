@@ -11,7 +11,7 @@ public sealed class Sensor : AuditableEntity
     public Guid DeviceId { get; private set; }
     public string Name { get; private set; } = null!;
     public string Code { get; private set; } = null!;
-    public MeasurementType MeasurementType { get; private set; }
+    public MeasurementType Type { get; private set; }
     public string Unit { get; private set; } = null!;
     private Sensor()
     {
@@ -30,7 +30,7 @@ public sealed class Sensor : AuditableEntity
         DeviceId = deviceId;
         Name = name;
         Code = code;
-        MeasurementType = measurementType;
+        Type = measurementType;
         Unit = unit;
     }
 
@@ -74,6 +74,23 @@ public sealed class Sensor : AuditableEntity
         }
 
         return name;
+    }
+    private void UpdateDetails(
+        string name,
+        MeasurementType measurementType,
+        string unit,
+        DateTimeOffset updatedAtUtc)
+    {
+        if (!Enum.IsDefined(typeof(MeasurementType), measurementType))
+        {
+            throw new ArgumentOutOfRangeException(nameof(measurementType));
+        }
+
+        Name = NormalizeName(name);
+        Type = measurementType;
+        Unit = NormalizeUnit(unit);
+        MarkAsUpdated(updatedAtUtc);
+
     }
     private static string NormalizeCode(string code)
     {
