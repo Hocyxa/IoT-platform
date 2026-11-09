@@ -33,7 +33,7 @@ public sealed class SensorConfiguration : IEntityTypeConfiguration<Sensor>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(x => x.MeasurementType)
+        builder.Property(x => x.Type)
             .HasColumnName("measurement_type")
             .HasConversion<int>()
             .IsRequired();
