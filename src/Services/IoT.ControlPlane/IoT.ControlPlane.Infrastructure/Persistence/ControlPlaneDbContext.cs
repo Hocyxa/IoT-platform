@@ -1,5 +1,6 @@
 using IoT.ControlPlane.Domain.Modules.Devices;
 using IoT.ControlPlane.Domain.Modules.Organizations;
+using IoT.ControlPlane.Domain.Modules.Sensors;
 using IoT.ControlPlane.Domain.Modules.Sites;
 
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ public sealed class ControlPlaneDbContext(
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Site> Sites => Set<Site>();
     public DbSet<Device> Devices => Set<Device>();
+    public DbSet<Sensor> Sensors => Set<Sensor>();
+
 
 
 
