@@ -75,7 +75,7 @@ public sealed class Sensor : AuditableEntity
 
         return name;
     }
-    private void UpdateDetails(
+    public void UpdateDetails(
         string name,
         MeasurementType measurementType,
         string unit,
