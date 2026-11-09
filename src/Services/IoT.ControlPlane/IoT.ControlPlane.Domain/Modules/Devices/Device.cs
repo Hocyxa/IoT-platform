@@ -57,7 +57,7 @@ public sealed class Device : AuditableEntity
         DeviceStatus status,
         DateTimeOffset updatedAtUtc)
     {
-        if (!Enum.IsDefined(status))
+        if (!Enum.IsDefined(typeof(DeviceStatus), status))
         {
             throw new ArgumentOutOfRangeException(nameof(status));
         }
