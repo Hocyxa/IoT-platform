@@ -90,7 +90,7 @@ public sealed class DevicesController(ISender sender) : ControllerBase
         var updated = await sender.Send(new ChangeDeviceStatusCommand(id, status), cancellationToken);
         return updated ? NoContent() : NotFound();
     }
-    [HttpGet("/api/v1/sites/{siteId:guid}/devices")]
+    [HttpGet("/api/v{version:apiVersion}/sites/{siteId:guid}/devices")]
     [ProducesResponseType<IReadOnlyList<DeviceResponse>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetBySite(
         Guid siteId,
