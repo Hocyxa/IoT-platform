@@ -92,6 +92,54 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                     b.ToTable("organizations", "control");
                 });
 
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.Sensors.Sensor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<Guid>("DeviceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("device_id");
+
+                    b.Property<int>("MeasurementType")
+                        .HasColumnType("integer")
+                        .HasColumnName("measurement_type");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("unit");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("sensors", "control");
+                });
+
             modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.Sites.Site", b =>
                 {
                     b.Property<Guid>("Id")
@@ -133,6 +181,15 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                     b.HasOne("IoT.ControlPlane.Domain.Modules.Sites.Site", null)
                         .WithMany()
                         .HasForeignKey("SiteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.Sensors.Sensor", b =>
+                {
+                    b.HasOne("IoT.ControlPlane.Domain.Modules.Devices.Device", null)
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
