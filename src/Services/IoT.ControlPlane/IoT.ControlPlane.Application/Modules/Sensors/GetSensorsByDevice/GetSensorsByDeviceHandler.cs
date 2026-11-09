@@ -7,9 +7,9 @@ using MediatR;
 namespace IoT.ControlPlane.Application.Modules.Sensors.GetSensorsByDevice;
 
 
-public sealed class GetSensorsByDeviceIdHandler(ISensorRepository repository) : IRequestHandler<GetSensorsByDeviceQuery, IReadOnlyCollection<SensorDto>>
+public sealed class GetSensorsByDeviceHandler(ISensorRepository repository) : IRequestHandler<GetSensorsByDeviceQuery, IReadOnlyList<SensorDto>>
 {
-    public async Task<IReadOnlyCollection<SensorDto>> Handle(GetSensorsByDeviceQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<SensorDto>> Handle(GetSensorsByDeviceQuery request, CancellationToken cancellationToken)
     {
         var sensors = await repository.GetByDeviceIdAsync(request.DeviceId, cancellationToken);
 
