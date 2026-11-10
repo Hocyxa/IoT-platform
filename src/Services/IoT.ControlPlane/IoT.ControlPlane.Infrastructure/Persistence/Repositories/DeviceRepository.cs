@@ -1,5 +1,6 @@
 
 using IoT.ControlPlane.Application.Modules.Devices.Abstractions;
+using IoT.ControlPlane.Application.Modules.MonitoringRules.Contracts;
 using IoT.ControlPlane.Application.Modules.Sensors.Contracts;
 using IoT.ControlPlane.Domain.Modules.Devices;
 
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IoT.ControlPlane.Infrastructure.Persistence.Repositories;
 
-public sealed class DeviceRepository(ControlPlaneDbContext dbContext) : IDeviceRepository, ISensorDeviceExistenceChecker
+public sealed class DeviceRepository(ControlPlaneDbContext dbContext) : IDeviceRepository, ISensorDeviceExistenceChecker, IDeviceExistenceChecker
 {
     public async Task AddAsync(Device device, CancellationToken cancellationToken)
     {

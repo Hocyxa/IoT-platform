@@ -1,5 +1,7 @@
 using IoT.ControlPlane.Application.Modules.Devices.Abstractions;
 using IoT.ControlPlane.Application.Modules.Devices.Contracts;
+using IoT.ControlPlane.Application.Modules.MonitoringRules.Abstractions;
+using IoT.ControlPlane.Application.Modules.MonitoringRules.Contracts;
 using IoT.ControlPlane.Application.Modules.Organizations.Abstractions;
 using IoT.ControlPlane.Application.Modules.Sensors.Abstractions;
 using IoT.ControlPlane.Application.Modules.Sensors.Contracts;
@@ -36,26 +38,31 @@ public static class DependencyInjection
         services.AddScoped<SiteRepository>();
         services.AddScoped<DeviceRepository>();
         services.AddScoped<SensorRepository>();
+        services.AddScoped<MonitoringRuleRepository>();
 
-
-
-        services.AddScoped<ISensorRepository>(
-            provider => provider.GetRequiredService<SensorRepository>());
-
-        services.AddScoped<IDeviceRepository>(
-            provider => provider.GetRequiredService<DeviceRepository>());
-        services.AddScoped<ISensorDeviceExistenceChecker>(
-            provider => provider.GetRequiredService<DeviceRepository>());
-
+        // Organizations
         services.AddScoped<IOrganizationRepository>(
             provider => provider.GetRequiredService<OrganizationRepository>());
-        services.AddScoped<IOrganizationExistenceChecker>(
-            provider => provider.GetRequiredService<OrganizationRepository>());
-
+        // Site
         services.AddScoped<ISiteRepository>(
             provider => provider.GetRequiredService<SiteRepository>());
+        services.AddScoped<IOrganizationExistenceChecker>(
+            provider => provider.GetRequiredService<OrganizationRepository>());
+        // Device
         services.AddScoped<ISiteExistenceChecker>(
             provider => provider.GetRequiredService<SiteRepository>());
+        services.AddScoped<IDeviceRepository>(
+            provider => provider.GetRequiredService<DeviceRepository>());
+        // Sensor
+        services.AddScoped<ISensorDeviceExistenceChecker>(
+            provider => provider.GetRequiredService<DeviceRepository>());
+        services.AddScoped<ISensorRepository>(
+            provider => provider.GetRequiredService<SensorRepository>());
+        // MonitoringRule
+        services.AddScoped<IDeviceExistenceChecker>(
+           provider => provider.GetRequiredService<DeviceRepository>());
+        services.AddScoped<IMonitoringRuleRepository>(
+            provider => provider.GetRequiredService<MonitoringRuleRepository>());
 
         return services;
     }
