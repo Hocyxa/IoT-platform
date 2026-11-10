@@ -1,4 +1,5 @@
 using IoT.ControlPlane.Domain.Modules.Devices;
+using IoT.ControlPlane.Domain.Modules.MonitoringRules;
 using IoT.ControlPlane.Domain.Modules.Organizations;
 using IoT.ControlPlane.Domain.Modules.Sensors;
 using IoT.ControlPlane.Domain.Modules.Sites;
@@ -15,7 +16,8 @@ public sealed class ControlPlaneDbContext(
     public DbSet<Site> Sites => Set<Site>();
     public DbSet<Device> Devices => Set<Device>();
     public DbSet<Sensor> Sensors => Set<Sensor>();
-
+    public DbSet<MonitoringRule> MonitoringRules
+    => Set<MonitoringRule>();
 
 
 
