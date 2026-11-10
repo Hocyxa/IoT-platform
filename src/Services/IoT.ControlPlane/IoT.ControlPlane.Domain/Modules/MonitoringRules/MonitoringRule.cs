@@ -163,6 +163,63 @@ public sealed class MonitoringRule : AggregateRoot
             new MonitoringRuleUpdatedDomainEvent(Id));
     }
 
+    public void UpdateDetails(
+        string name,
+        string? description,
+        RuleSeverity severity,
+        DateTimeOffset updatedAtUtc)
+    {
+        if (!Enum.IsDefined(severity))
+        {
+            throw new ArgumentOutOfRangeException(nameof(severity));
+        }
+        if (Name == name &&
+            Description == description &&
+            Severity == severity)
+        {
+            return;
+        }
+        name = name?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException(
+                "Monitoring rule name cannot be empty.",
+                nameof(name));
+        }
+
+        if (name.Length > 200)
+        {
+            throw new ArgumentException(
+                "Monitoring rule name cannot exceed 200 characters.",
+                nameof(name));
+        }
+
+        description = description?.Trim();
+
+        if (description?.Length > 1000)
+        {
+            throw new ArgumentException(
+                "Monitoring rule description cannot exceed 1000 characters.",
+                nameof(description));
+        }
+
+        if (Name == name &&
+            Description == description &&
+            Severity == severity)
+        {
+            return;
+        }
+
+        Name = name;
+        Description = description;
+        Severity = severity;
+
+        MarkAsUpdated(updatedAtUtc);
+
+        AddDomainEvent(new MonitoringRuleUpdatedDomainEvent(Id));
+    }
+
     public void RemoveSensor(
         Guid sensorId,
         DateTimeOffset updatedAtUtc)
