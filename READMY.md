@@ -3,7 +3,7 @@
 | Organization	| CQRS, собственные Handler, прямой вызов через DI	| Готово
 | Site	| Application Service / Service Layer	| Готово
 | Device	| CQRS + MediatR	| Готово
-| Sensor	| Vertical Slice Architecture	| Запланировано
+| Sensor	| Vertical Slice Architecture	| Готово
 | MonitoringRule	| CQRS + Domain Events	| Запланировано
 | Telemetry	 | Pipeline / Message-driven processing	| Запланировано
 | Incident	| DDD + Domain Events	| Запланировано
