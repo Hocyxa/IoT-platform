@@ -67,6 +67,79 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                     b.ToTable("devices", "control");
                 });
 
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionNode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("node_type")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
+                    b.Property<Guid?>("parent_group_id")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("parent_group_id");
+
+                    b.ToTable("monitoring_rule_condition_nodes", "control");
+
+                    b.HasDiscriminator<string>("node_type").HasValue("ConditionNode");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.MonitoringRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("description");
+
+                    b.Property<Guid>("DeviceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("device_id");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
+
+                    b.Property<int?>("MeasurementType")
+                        .HasColumnType("integer")
+                        .HasColumnName("measurement_type");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Severity")
+                        .HasColumnType("integer")
+                        .HasColumnName("severity");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("monitoring_rules", "control");
+                });
+
             modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.Organizations.Organization", b =>
                 {
                     b.Property<Guid>("Id")
@@ -112,15 +185,15 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("device_id");
 
-                    b.Property<int>("MeasurementType")
-                        .HasColumnType("integer")
-                        .HasColumnName("measurement_type");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("measurement_type");
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -176,6 +249,39 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                     b.ToTable("sites", "control");
                 });
 
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionGroup", b =>
+                {
+                    b.HasBaseType("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionNode");
+
+                    b.Property<int>("LogicalOperator")
+                        .HasColumnType("integer")
+                        .HasColumnName("logical_operator");
+
+                    b.Property<Guid?>("monitoring_rule_id")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("monitoring_rule_id")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("group");
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.MonitoringCondition", b =>
+                {
+                    b.HasBaseType("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionNode");
+
+                    b.Property<int>("ComparisonOperator")
+                        .HasColumnType("integer")
+                        .HasColumnName("comparison_operator");
+
+                    b.Property<decimal>("Threshold")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("numeric(18,6)")
+                        .HasColumnName("threshold");
+
+                    b.HasDiscriminator().HasValue("condition");
+                });
+
             modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.Devices.Device", b =>
                 {
                     b.HasOne("IoT.ControlPlane.Domain.Modules.Sites.Site", null)
@@ -183,6 +289,50 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                         .HasForeignKey("SiteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionNode", b =>
+                {
+                    b.HasOne("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionGroup", null)
+                        .WithMany("Nodes")
+                        .HasForeignKey("parent_group_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.MonitoringRule", b =>
+                {
+                    b.HasOne("IoT.ControlPlane.Domain.Modules.Devices.Device", null)
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsMany("IoT.ControlPlane.Domain.Modules.MonitoringRules.MonitoringRuleSensor", "Sensors", b1 =>
+                        {
+                            b1.Property<Guid>("monitoring_rule_id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("SensorId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sensor_id");
+
+                            b1.HasKey("monitoring_rule_id", "SensorId");
+
+                            b1.HasIndex("SensorId");
+
+                            b1.ToTable("monitoring_rule_sensors", "control");
+
+                            b1.HasOne("IoT.ControlPlane.Domain.Modules.Sensors.Sensor", null)
+                                .WithMany()
+                                .HasForeignKey("SensorId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
+
+                            b1.WithOwner()
+                                .HasForeignKey("monitoring_rule_id");
+                        });
+
+                    b.Navigation("Sensors");
                 });
 
             modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.Sensors.Sensor", b =>
@@ -201,6 +351,25 @@ namespace IoT.ControlPlane.Infrastructure.Persistence.Migrations
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionGroup", b =>
+                {
+                    b.HasOne("IoT.ControlPlane.Domain.Modules.MonitoringRules.MonitoringRule", null)
+                        .WithOne("RootConditionGroup")
+                        .HasForeignKey("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionGroup", "monitoring_rule_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.MonitoringRule", b =>
+                {
+                    b.Navigation("RootConditionGroup")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IoT.ControlPlane.Domain.Modules.MonitoringRules.ConditionGroup", b =>
+                {
+                    b.Navigation("Nodes");
                 });
 #pragma warning restore 612, 618
         }
