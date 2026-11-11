@@ -1,5 +1,7 @@
 
 using IoT.ControlPlane.Domain.Modules.MonitoringRules;
+using IoT.ControlPlane.Domain.Modules.MonitoringRules.Enums;
+using IoT.ControlPlane.Domain.Modules.Sensors;
 
 namespace IoT.ControlPlane.Application.Modules.MonitoringRules.Abstractions;
 
@@ -23,5 +25,15 @@ public interface IMonitoringRuleRepository
 
     Task DeleteAsync(
         MonitoringRule rule,
+        CancellationToken cancellationToken);
+    Task<IReadOnlyList<MonitoringRule>> GetAllAsync(
+        CancellationToken cancellationToken);
+    Task<(IReadOnlyList<MonitoringRule> Items, int TotalCount)> GetFilteredAsync(
+        Guid? deviceId,
+        RuleSeverity? severity,
+        bool? isEnabled,
+        MeasurementType? measurementType,
+        int page,
+        int pageSize,
         CancellationToken cancellationToken);
 }
