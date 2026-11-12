@@ -67,7 +67,7 @@ public sealed class DevicesController(ISender sender) : ControllerBase
         return updated ? NoContent() : NotFound();
     }
     [HttpDelete("{id:guid}")]
-    [ProducesResponseType<DeviceResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(Guid id, CancellationToken cancellationToken)
@@ -76,7 +76,7 @@ public sealed class DevicesController(ISender sender) : ControllerBase
         return deleted ? NoContent() : NotFound();
     }
     [HttpPatch("{id:guid}/status")]
-    [ProducesResponseType<DeviceResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ChangeStatus(Guid id, ChangeDeviceStatusRequest request,

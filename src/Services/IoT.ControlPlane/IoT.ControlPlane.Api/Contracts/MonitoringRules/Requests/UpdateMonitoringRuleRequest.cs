@@ -5,13 +5,13 @@ using IoT.ControlPlane.Api.Contracts.MonitoringRules.Enums;
 namespace IoT.ControlPlane.Api.Contracts.MonitoringRules.Requests;
 
 public sealed record UpdateMonitoringRuleRequest(
-    [property: Required]
-    [property: StringLength(200, MinimumLength = 1)]
+    [param: Required]
+    [param: StringLength(200, MinimumLength = 1)]
     string Name,
 
-    [property: StringLength(1000)]
+    [param: StringLength(1000)]
     string? Description,
 
-    [property: EnumDataType(typeof(RuleSeverityRequest))]
+    [param: EnumDataType(typeof(RuleSeverityRequest))]
     RuleSeverityRequest Severity
 );

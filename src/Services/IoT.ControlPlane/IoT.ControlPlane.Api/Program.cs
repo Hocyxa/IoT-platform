@@ -4,6 +4,7 @@ using IoT.ControlPlane.Application;
 using IoT.ControlPlane.Infrastructure;
 using IoT.ControlPlane.Infrastructure.Persistence;
 
+using Microsoft.EntityFrameworkCore;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Register application services.
@@ -32,17 +33,6 @@ builder.Services.Configure<RouteOptions>(options =>
 
 WebApplication app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider
-        .GetRequiredService<ControlPlaneDbContext>();
-
-    var canConnect = await dbContext.Database.CanConnectAsync();
-
-    Console.WriteLine($"PostgreSQL connection: {canConnect}");
-}
-
-
 // Expose OpenAPI specification in development.
 if (app.Environment.IsDevelopment())
 {
@@ -50,9 +40,32 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwagger();
     app.UseSwaggerUI();
+
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider
+            .GetRequiredService<ControlPlaneDbContext>();
+        var canConnect = await dbContext.Database.CanConnectAsync();
+        Console.WriteLine($"PostgreSQL connection: {canConnect}");
+    }
+
+}
+if (app.Environment.IsEnvironment("Testing"))
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider
+            .GetRequiredService<ControlPlaneDbContext>();
+
+        await dbContext.Database.MigrateAsync();
+    }
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    app.UseHttpsRedirection();
+}
 app.MapControllers();
 app.MapGet("/health", () => Results.Ok(new
 {
