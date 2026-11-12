@@ -2,7 +2,6 @@
 services:
   postgres-e2e:
     image: postgres:17-alpine
-    container_name: iot-controlplane-e2e-db
     environment:
       POSTGRES_DB: iot_controlplane_e2e
       POSTGRES_USER: e2e_user
@@ -21,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: src/Services/IoT.ControlPlane/Dockerfile
-    container_name: iot-controlplane-e2e-api
+
     environment:
       ASPNETCORE_ENVIRONMENT: Testing
       ASPNETCORE_HTTP_PORTS: 8080
