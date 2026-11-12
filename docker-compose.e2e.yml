@@ -1,0 +1,36 @@
+
+services:
+  postgres-e2e:
+    image: postgres:17-alpine
+    container_name: iot-controlplane-e2e-db
+    environment:
+      POSTGRES_DB: iot_controlplane_e2e
+      POSTGRES_USER: e2e_user
+      POSTGRES_PASSWORD: e2e_password
+    ports:
+      - "55432:5432"
+    volumes:
+      - postgres_e2e_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U e2e_user -d iot_controlplane_e2e"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api-e2e:
+    build:
+      context: .
+      dockerfile: src/Services/IoT.ControlPlane/IoT.ControlPlane.Api/Dockerfile
+    container_name: iot-controlplane-e2e-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Testing
+      ASPNETCORE_HTTP_PORTS: 8080
+      ConnectionStrings__ControlPlane: "Host=postgres-e2e;Port=5432;Database=iot_controlplane_e2e;Username=e2e_user;Password=e2e_password"
+    ports:
+      - "18080:8080"
+    depends_on:
+      postgres-e2e:
+        condition: service_healthy
+
+volumes:
+  postgres_e2e_data:
