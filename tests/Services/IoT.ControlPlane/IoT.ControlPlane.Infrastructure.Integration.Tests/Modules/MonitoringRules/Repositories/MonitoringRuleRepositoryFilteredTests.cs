@@ -288,4 +288,59 @@ public sealed class MonitoringRuleRepositoryTests
         Assert.Equal(expectedSensor.Id, actualSensor.SensorId);
     }
 
+    [Fact]
+    public async Task GetFilteredAsync_ShouldHandlePaginationBoundaries()
+    {
+        // Arrange
+        await using var dbContext = _fixture.CreateDbContext();
+        var repository = new MonitoringRuleRepository(dbContext);
+
+        var expectedTotalCount = _fixture.Rules.Count;
+
+        // Act 1: pageSize = 1
+        var (singleItem, singleItemTotalCount) =
+            await repository.GetFilteredAsync(
+                deviceId: null,
+                severity: null,
+                isEnabled: null,
+                measurementType: null,
+                page: 1,
+                pageSize: 1,
+                cancellationToken: CancellationToken.None);
+
+        // Act 2: последняя страница
+        var (lastPage, lastPageTotalCount) =
+            await repository.GetFilteredAsync(
+                deviceId: null,
+                severity: null,
+                isEnabled: null,
+                measurementType: null,
+                page: 2,
+                pageSize: 3,
+                cancellationToken: CancellationToken.None);
+
+        // Act 3: страница за пределами выборки
+        var (emptyPage, emptyPageTotalCount) =
+            await repository.GetFilteredAsync(
+                deviceId: null,
+                severity: null,
+                isEnabled: null,
+                measurementType: null,
+                page: 3,
+                pageSize: 2,
+                cancellationToken: CancellationToken.None);
+
+        // Assert 1
+        Assert.Single(singleItem);
+        Assert.Equal(expectedTotalCount, singleItemTotalCount);
+
+        // Assert 2
+        Assert.Single(lastPage);
+        Assert.Equal(expectedTotalCount, lastPageTotalCount);
+
+        // Assert 3
+        Assert.Empty(emptyPage);
+        Assert.Equal(expectedTotalCount, emptyPageTotalCount);
+    }
+
 }

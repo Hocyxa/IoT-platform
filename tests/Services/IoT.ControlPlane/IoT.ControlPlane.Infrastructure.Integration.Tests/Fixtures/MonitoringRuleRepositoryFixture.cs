@@ -19,7 +19,6 @@ public sealed class MonitoringRuleRepositoryFixture : IAsyncLifetime
     private readonly TestTimeProvider _timeProvider =
         new(DateTimeOffset.UtcNow);
 
-    private ControlPlaneDbContext? _dbContext;
 
     public Organization Organization { get; private set; } = null!;
 
@@ -163,10 +162,6 @@ public sealed class MonitoringRuleRepositoryFixture : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
-        if (_dbContext is not null)
-        {
-            await _dbContext.DisposeAsync();
-        }
 
         await _postgresSqlFixture.DisposeAsync();
     }
