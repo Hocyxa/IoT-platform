@@ -20,7 +20,7 @@ services:
   api-e2e:
     build:
       context: .
-      dockerfile: src/Services/IoT.ControlPlane/IoT.ControlPlane.Api/Dockerfile
+      dockerfile: src/Services/IoT.ControlPlane/Dockerfile
     container_name: iot-controlplane-e2e-api
     environment:
       ASPNETCORE_ENVIRONMENT: Testing
